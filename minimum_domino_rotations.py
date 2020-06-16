@@ -67,3 +67,48 @@ class Solution:
             return -1
         
         return count
+
+        """
+        More optimized(cleaner version)
+        Essentially, get the maximum frequency element which equals to length of the any of the array
+        - Initial config - arotations, brotations
+        Iterate through the length of any array
+            - If the both A[i] and B[i] are not equal to max freq element - return -1
+            - if A[i] is equal to max_freq -> increment B rotations
+            else - increment A rotations
+        - Return min(a rotations, b rotations)
+        """
+        def check_result(X):
+            a_rotations,b_rotations = 0,0
+            for i in range(len(A)):
+                if A[i]!= X and B[i] != X:
+                    return -1
+                elif A[i] == X and B[i] != X:
+                    b_rotations+=1
+                elif A[i] != X and B[i] == X:
+                    a_rotations+=1
+            return min(a_rotations,b_rotations)
+        
+        
+        # Version to copmute the maximum frequency element
+        dice_count = [0]*7
+        max_freq_ele = -1
+        count = 0
+        for i in range(len(A)):
+            dice_count[A[i]]+=1
+            dice_count[B[i]]+=1
+            if dice_count[A[i]] >= len(A):
+                max_freq_ele = A[i]
+            elif dice_count[B[i]] == len(A):
+                max_freq_ele = B[i]
+        
+        print(max_freq_ele)
+        a_rotations,b_rotations = 0,0
+        
+        """
+        Idea is that we need to check for only two elements and that two any two elements of the A and B, so might as well check first element from each array and then run the checks considering the element as reference element- rest of the logic remains the same. we avoided the overhead of computing the max frequency element by doing this
+        """
+        result_A = check_result(A[0])
+        if result_A == -1:
+            return check_result(B[0])
+        return result_A
