@@ -1,0 +1,32 @@
+class Solution {
+    
+    //1055. Shortest Way to Form String
+    //Time complexity : O(mn) where m is the length of the source and n is the length of target
+    //Space complexity : O(1)
+    public int shortestWay(String source, String target) {
+        
+        int sLen = source.length();
+        int tLen = target.length();
+        int j =0;
+        int count =0;
+        int valOfj =0;
+        
+        while(j < tLen){
+        int i =0;                    //source index resets 
+        while(i < sLen && j < tLen){
+            if(source.charAt(i) == target.charAt(j))
+                j++;    //only increments when a charachter in target matches with source
+                i++;    // This increments even if no match was found in the target
+        }
+            
+    //checks if there is no change in the value of j(any charachter from                                              target is not present in source)
+            if(valOfj == j)
+                return -1;
+            
+            valOfj = j;
+            count++;
+        
+        }
+        return count;
+    }
+}
