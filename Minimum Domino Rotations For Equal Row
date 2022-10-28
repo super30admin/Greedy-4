@@ -1,0 +1,17 @@
+from collections import Counter
+class Solution:
+    def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
+        t = Counter(tops)
+        b = Counter(bottoms)
+        a = {tops[0], bottoms[0]}
+        for top, bottom in zip(tops[1:], bottoms[1:]):
+            a &= {top, bottom}       
+        if len(a) == 0:
+            return -1
+        else:
+            c = list(a)[0]
+            return len(tops) - max(t[c],b[c])
+        
+# Time Complexity: O(n)
+# Space Complexity: O(1)
+# Successfully implemented on Leetcode
