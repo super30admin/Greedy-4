@@ -1,0 +1,48 @@
+//TimeComplexity.   O(mn)
+//Spacecomplexity. O(n)
+
+
+class Solution {
+    public int shortestWay(String source, String target) {
+        
+        
+        
+        HashSet<Character> set = new HashSet<>();
+        
+        for(int i = 0 ; i < source.length(); i++){
+            char c = source.charAt(i);
+            
+            set.add(c);
+        }
+        
+        int sp = 0;
+        int tp = 0;
+        int sl = source.length();
+        int tl = target.length();
+        int count = 1;
+        
+        while(tp <  tl){
+            
+            char schar = source.charAt(sp);
+            char tchar = target.charAt(tp);
+            
+            if(!set.contains(tchar))return -1;
+            
+            if(schar == tchar){
+                sp++;
+                tp++;
+            }else{
+                sp++;
+            }
+            if(tp == tl){
+                return count;
+            }
+            
+            if(sp == sl){
+                sp = 0;
+                count++;
+            }
+        }
+        return count;
+    }
+}

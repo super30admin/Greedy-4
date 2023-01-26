@@ -1,0 +1,47 @@
+//timeComplexity.   O(n)
+//SpaceComplexity.  O(1)
+
+class Solution {
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        for(int i = 0; i < tops.length; i++){
+            map.put(tops[i], map.getOrDefault(tops[i],0)+1);
+        }
+
+        for(int i = 0; i < bottoms.length; i++){
+            map.put(bottoms[i], map.getOrDefault(bottoms[i],0)+1);
+        }
+
+        int max = 0;
+        int val = 0;
+
+        for(int key : map.keySet()){
+            if(map.get(key) > max && map.get(key)>= tops.length){
+                val = key;
+                max =  map.get(key);
+            }
+           
+        }
+
+        int countTop = 0;
+        int countBot = 0;
+
+        for(int i = 0; i < tops.length; i++){
+           
+           if(tops[i]!= val && bottoms[i] != val){
+              return -1;
+               
+           }
+           if(tops[i]!= val){
+               countTop++;
+           }
+
+            if(bottoms[i]!= val){
+               countBot++;
+           }
+        }
+        return Math.min(countTop,countBot);
+
+    }
+} 
