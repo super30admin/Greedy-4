@@ -1,0 +1,82 @@
+// Time Complexity :O(2n)
+// Space Complexity :O(n)
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+// Your code here along with comments explaining your approach:
+
+
+class Solution {
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        HashMap<Integer, Integer> map = new HashMap<>(); //S.c:O(n)
+        int n = tops.length;
+        int target = 0;
+        // T.c: O(n)
+        for (int i = 0; i < n; i++) {//to cal frequencies for each element in tops and bottoms arrray
+            int top = tops[i];
+            int bottom = bottoms[i];
+            map.put(top, map.getOrDefault(top, 0) + 1);
+            //if freq of any top become greater or equal n that would be out target
+            if (map.get(top) >= n) {
+                target = top;
+            }
+            map.put(bottom, map.getOrDefault(bottom, 0) + 1);
+            if (map.get(bottom) >= n) {
+                target = bottom;
+            }
+        }
+        int topSwap = 0;
+        int bottomSwap = 0;
+        //find swap count for both tops and bottoms as well
+            // T.c: O(n)
+        for (int j = 0; j < n; j++) {
+            //whether neither of them are target then return -1
+            if (tops[j] != target && bottoms[j] != target) {
+                return -1;
+            } else if (tops[j] != target) {//if top is not target then need to roate
+                topSwap++;
+            } else if (bottoms[j] != target) {//if bottom is not target then need to roate
+                bottomSwap++;
+            }
+        }
+       return Math.min(topSwap, bottomSwap);
+    }
+}
+
+
+// Time Complexity :O(n)
+// Space Complexity :no space
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+// Your code here along with comments explaining your approach:
+
+class Solution {
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        int target = tops[1];
+        //checking with tops of any item
+        int rotations = countSwaps(tops, bottoms, target);
+        if (rotations == -1) {//if its giving -1 means target is not actual target which we imagined
+            rotations = countSwaps(tops, bottoms, bottoms[1]);
+        }
+        return rotations;
+    }
+
+    public int countSwaps(int[] tops, int[] bottoms, int target) {
+        int n = tops.length;
+        int topSwap = 0;
+        int bottomSwap = 0;
+        //find swap count for both tops and bottoms as well
+        // T.c: O(n)
+        for (int j = 0; j < n; j++) {
+            //whether neither of them are target then return -1
+            if (tops[j] != target && bottoms[j] != target) {
+                return -1;
+            } else if (tops[j] != target) {//if top is not target then need to roate
+                topSwap++;
+            } else if (bottoms[j] != target) {//if bottom is not target then need to roate
+                bottomSwap++;
+            }
+        }
+        return Math.min(topSwap, bottomSwap);
+    }
+
+}

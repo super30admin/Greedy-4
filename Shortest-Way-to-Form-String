@@ -1,0 +1,138 @@
+// Time Complexity :O(n*m) where n is target length and m is source length
+// Space Complexity :O(m)
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+// Your code here along with comments explaining your approach:
+
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        String source="concentrate";
+        String target="catat";
+        Sample s=new Sample();
+        int res=s.count(source,target);
+         System.out.println("Hello World!"+res);
+    }
+}
+class Sample{
+    public int count(String source,String target){
+        //s.c : O(m)
+         //t.c : O(m)
+        HashSet<Character> set=new HashSet<>();// adding all source chars into set for O(1) lookup
+        for(int i=0;i<source.length();i++){
+            char sChar=source.charAt(i);
+            set.add(sChar);
+        }
+        int count=0;
+        int sp=0;//source pointer
+        int tp=0;//target pointer
+        while(tp < target.length()){  //t.c : O(n*m)
+             char sChar=source.charAt(sp);//source pointer character
+        char tChar=target.charAt(tp);//target pointer character
+        if(!set.contains(tChar)){ //if set doesnot conatuns target char then return 
+            return -1;
+        }
+         if(sChar == tChar){//if both characters math then increment both pointers
+            sp++;
+            tp++;
+            if(tp == target.length()){
+            return count+1;
+         }
+        }else{
+            sp++;
+        }
+         if(sp == source.length()){
+            sp=0;
+            count++;
+        }
+        }
+         
+        System.out.println(count);
+        return count;
+    }
+}
+
+// Time Complexity :O(n*log(m)) where n is target length and m is source length
+// Space Complexity :O(m)
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+// Your code here along with comments explaining your approach:
+
+
+
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        String source="concentrate";
+        String target="cat";
+        Sample s=new Sample();
+        int res=s.count(source,target);
+         System.out.println("Hello World!" +res);
+    }
+}
+class Sample{
+    public int count(String source,String target){
+        HashMap<Character,List<Integer>> map=new HashMap<>();// adding all source chars into set for O(1) lookup
+        for(int i=0;i<source.length();i++){ //all indices of each char from source to avoid multiple looping in source
+            char sChar=source.charAt(i);
+            if(!map.containsKey(sChar)){
+                map.put(sChar,new ArrayList<>());
+            }
+            map.get(sChar).add(i);
+        }
+        int count=0;
+        int sp=0;//source pointer
+        int tp=0;//target pointer
+        while(tp < target.length()){
+             char sChar=source.charAt(sp);//source pointer character
+            char tChar=target.charAt(tp);//target pointer character
+        if(!map.containsKey(tChar)){ //if set doesnot conatuns target char then return 
+            return -1;
+        }
+         if(sChar == tChar){//if both characters math then increment both pointers
+            sp++;
+            tp++;
+            if(tp == target.length()){
+            return count;
+         }
+        }else{
+            // sp++;
+             List<Integer> li=map.get(tChar);
+             int bIdx=binarySearch(li,sp);
+             if(bIdx == -1){//if target char index is beyond the sp
+                 sp=li.get(0);
+                 count++;
+             }else{//directly if we get next index of target in source
+                 sp=li.get(bIdx);
+             }
+               sp++;
+               tp++;
+              if(tp == target.length()){
+            return count;
+         }
+             
+        }
+         if(sp == source.length()){
+            sp=0;
+            count++;
+        }
+        }
+         
+        System.out.println(count);
+        return count;
+    }
+    public int binarySearch(List<Integer> li,int target){//finding next greater index of target index
+        int low=0;int high=li.size()-1;//low and high pointers
+        int result =-1;
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(li.get(mid) >= target){
+                result=mid;
+                high=mid-1;
+            }else{
+                low=mid+1;
+            }
+        }
+        return result;
+    }
+}
